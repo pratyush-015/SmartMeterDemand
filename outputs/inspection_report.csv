@@ -1,0 +1,33 @@
+meter_id,zone,detected_type,confidence_score,priority,mean_consumption,recent_hist_ratio,zero_ratio,peer_deviation_score,rule_reasons
+MTR_JAY_1089,Jayanagar,statistical_anomaly,30.1,LOW,0.6148223833223684,0.8448748354151633,0.0,0.7634592075001071,Strong decline trend: -41.6%
+MTR_RAJ_1197,Rajajinagar,statistical_anomaly,16.2,LOW,2.2243460243055555,1.0569908504519336,0.0,1.0353018728299244,Statistical anomaly (Isolation Forest)
+MTR_RAJ_1205,Rajajinagar,statistical_anomaly,15.5,LOW,2.0052360937500002,1.0621381779871313,0.0,0.9542973407523703,Statistical anomaly (Isolation Forest)
+MTR_RAJ_1183,Rajajinagar,statistical_anomaly,63.6,MEDIUM,1.4982235054861113,0.843630096413441,0.0,1.141669082504919,Strong decline trend: -42.8%
+MTR_WHI_1161,Whitefield,statistical_anomaly,58.1,MEDIUM,1.3235559915040205,0.8496514949363789,0.0,0.7482159799925449,Strong decline trend: -41.2%
+MTR_WHI_1124,Whitefield,statistical_anomaly,57.6,MEDIUM,2.7713264916282894,0.846231619779434,0.0,0.5112519620201493,Strong decline trend: -42.8%
+MTR_WHI_1143,Whitefield,statistical_anomaly,52.0,MEDIUM,6.715130397837099,2.3309178241707764,0.0,2.4253216162242457,Statistical anomaly (Isolation Forest)
+MTR_WHI_1127,Whitefield,statistical_anomaly,51.1,MEDIUM,4.213696708297679,1.379675059733577,0.0,1.5999240965054273,Statistical anomaly (Isolation Forest)
+MTR_KOR_1061,Koramangala,statistical_anomaly,50.4,MEDIUM,6.5824023754391,2.455060665387673,0.0,2.4911697572512277,Statistical anomaly (Isolation Forest)
+MTR_KOR_1059,Koramangala,statistical_anomaly,47.5,MEDIUM,4.752449819416312,2.3246782195184728,0.0,2.087478823657892,Statistical anomaly (Isolation Forest)
+MTR_JAY_1088,Jayanagar,statistical_anomaly,47.4,MEDIUM,0.5324182735250546,0.6351434698281568,0.2,2.1421857819573185,Strong decline trend: -48.6%
+MTR_IND_1013,Indiranagar,statistical_anomaly,47.0,MEDIUM,5.753870590288936,2.4582887950809056,0.0,2.2400823958740728,Statistical anomaly (Isolation Forest)
+MTR_IND_1036,Indiranagar,statistical_anomaly,47.0,MEDIUM,5.647304133094639,2.469050166778145,0.0,2.2350732718333335,Statistical anomaly (Isolation Forest)
+MTR_IND_1005,Indiranagar,statistical_anomaly,45.7,MEDIUM,1.2868156808875042,1.3833938187335475,0.0,1.0197556767920397,Statistical anomaly (Isolation Forest)
+MTR_KOR_1070,Koramangala,statistical_anomaly,45.0,MEDIUM,2.2285350684117953,2.3601452033516024,0.0,1.512276686202359,Statistical anomaly (Isolation Forest)
+MTR_RAJ_1201,Rajajinagar,statistical_anomaly,44.7,MEDIUM,2.0420531881697976,2.180416688573204,0.0,1.7315296536208749,Statistical anomaly (Isolation Forest)
+MTR_JAY_1102,Jayanagar,statistical_anomaly,44.6,MEDIUM,2.3241254187755214,2.2169834660199688,0.0,1.9971976798810689,Statistical anomaly (Isolation Forest)
+MTR_IND_1034,Indiranagar,statistical_anomaly,44.4,MEDIUM,2.6062636214427393,2.296051525171232,0.0,1.3988711787497545,Statistical anomaly (Isolation Forest)
+MTR_JAY_1096,Jayanagar,statistical_anomaly,44.4,MEDIUM,0.9690306725051202,1.3549456705607466,0.0,1.1465565420123534,Statistical anomaly (Isolation Forest)
+MTR_IND_1029,Indiranagar,statistical_anomaly,44.2,MEDIUM,0.5489097068727821,0.6354739835655857,0.2,1.953110172113508,Strong decline trend: -48.6%
+MTR_KOR_1083,Koramangala,statistical_anomaly,42.9,MEDIUM,0.9632475392242682,0.6369682492241499,0.2,1.7225057080640218,Strong decline trend: -48.3%
+MTR_RAJ_1209,Rajajinagar,statistical_anomaly,42.9,MEDIUM,1.8958461605392463,2.225380058597138,0.0,1.7354673444106918,Statistical anomaly (Isolation Forest)
+MTR_JAY_1117,Jayanagar,statistical_anomaly,42.8,MEDIUM,1.9247043972931692,2.212388045491077,0.0,1.856970927669349,Statistical anomaly (Isolation Forest)
+MTR_KOR_1075,Koramangala,statistical_anomaly,42.3,MEDIUM,0.9470728018342055,0.6344423548830779,0.2,1.7306530343358577,Strong decline trend: -49.0%
+MTR_WHI_1152,Whitefield,statistical_anomaly,83.9,HIGH,2.8017332520021085,0.6310434223718495,0.2,2.2167358721982366,Strong decline trend: -50.5%
+MTR_KOR_1073,Koramangala,theft_sudden_drop,80.0,HIGH,2.0411456784722226,0.29480731890190964,0.0,1.7784088548896015,Consumption dropped to 29% of historical; Strong decline trend: -162.4%
+MTR_WHI_1157,Whitefield,theft_sudden_drop,78.5,HIGH,1.4377758819444444,0.2956461113395706,0.0,1.7135440827050512,Consumption dropped to 30% of historical; Strong decline trend: -161.7%
+MTR_RAJ_1199,Rajajinagar,theft_sudden_drop,78.0,HIGH,0.45992063680555556,0.2966675968768556,0.0,1.803544532793711,Consumption dropped to 30% of historical; Strong decline trend: -160.2%
+MTR_IND_1001,Indiranagar,theft_sudden_drop,75.9,HIGH,0.6720978548611112,0.29541340653375053,0.0,1.5220513119488777,Consumption dropped to 30% of historical; Strong decline trend: -160.9%
+MTR_WHI_1175,Whitefield,theft_sudden_drop,74.6,HIGH,0.6813857305555556,0.295211687471146,0.0,1.7451051541095637,Consumption dropped to 30% of historical; Strong decline trend: -161.1%
+MTR_WHI_1134,Whitefield,theft_sudden_drop,73.7,HIGH,0.8663453465277778,0.2964530203145395,0.0,1.712852709197885,Consumption dropped to 30% of historical; Strong decline trend: -160.1%
+MTR_WHI_1165,Whitefield,theft_sudden_drop,73.7,HIGH,1.0810088166666667,0.29700492187504574,0.0,1.6763299763025075,Consumption dropped to 30% of historical; Strong decline trend: -160.2%

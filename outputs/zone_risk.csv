@@ -1,0 +1,6 @@
+zone,risk_score,risk_tier,peak_load_kwh,avg_load_kwh,peak_ratio,volatility,load_trend_pct,forecasted_peak_24h
+Whitefield,77.3,HIGH,1120.53,588.72,1.9,0.636,4.97,1198.8
+Jayanagar,75.1,HIGH,305.05,156.34,1.95,0.502,5.42,317.71
+Koramangala,72.8,HIGH,562.86,334.05,1.68,0.537,6.9,612.34
+Indiranagar,72.0,HIGH,445.05,259.76,1.71,0.536,6.12,489.01
+Rajajinagar,72.0,HIGH,269.17,125.85,2.14,0.544,2.24,281.91
