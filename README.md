@@ -216,8 +216,8 @@ streamlit>=1.10
 
 ---
 
-## 👥 Team
+## 👥 Team : HYSTREL
 
-AI for Bharat Hackathon 2025 — Grand Finale Submission  
-Track: AI for Smart Meter Intelligence & Loss Detection  
+AI for Bharat Hackathon 2026 — Prototype Round Submission  
+Theme 8: AI for Smart Meter Intelligence & Loss Detection  
 Sponsor: BESCOM (Bengaluru Electricity Supply Company)

@@ -96,7 +96,7 @@ def inject_anomaly(df, anomaly_type):
     n = len(df)
 
     if anomaly_type == "theft_gradual":
-        # Last 30 days: gradual 40-60% reduction (bypass installed)
+        # Last 30 days: gradual 40-60% reduction
         cutoff = int(n * 0.67)
         reduction = np.linspace(1.0, 0.4, n - cutoff)
         df.loc[df.index[cutoff:], "consumption_kwh"] *= reduction

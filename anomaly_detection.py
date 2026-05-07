@@ -27,7 +27,7 @@ def compute_meter_features(df_raw):
         mdf = mdf.sort_values("timestamp")
         consumption = mdf["consumption_kwh"].values
 
-        if len(consumption) < 96:  # need at least 1 day
+        if len(consumption) < 96:  
             continue
 
         # ── Basic statistics ──

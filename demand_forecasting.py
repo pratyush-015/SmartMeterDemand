@@ -219,10 +219,10 @@ def compute_zone_risk(forecasts_dict):
 
         # Risk score (0-100)
         risk_score = (
-            min(peak_ratio * 20, 40) +       # peak ratio (max 40)
-            min(volatility * 30, 20) +        # volatility (max 20)
-            min(max(trend_pct, 0) * 2, 20) +  # growth trend (max 20)
-            min(future_peak / (avg_load + 1e-8) * 5, 20)  # future peak (max 20)
+            min(peak_ratio * 20, 40) +       # peak ratio 
+            min(volatility * 30, 20) +        # volatility 
+            min(max(trend_pct, 0) * 2, 20) +  # growth trend 
+            min(future_peak / (avg_load + 1e-8) * 5, 20)  # future peak
         )
 
         if risk_score >= 60:
