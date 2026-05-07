@@ -90,6 +90,52 @@ def generate_meter_data(meter_id, zone_name, zone_cfg, start_date, days=90, anom
 
     return df
 
+def generate_meter_data_vec(meter_id, zone_name, zone_cfg, start_date, days=90, anomaly_type=None):
+    freq = "15min"
+    periods = days * 96
+    timestamps = pd.date_range(start=start_date, periods=periods, freq=freq)
+
+    is_commercial = np.random.random() < zone_cfg["commercial_ratio"]
+    base = zone_cfg["base_load"] * (0.7 + 0.6*np.random.random())
+
+    hours = timestamps.hour + timestamps.minute / 60.0
+    months = timestamps.month
+    weekdays = timestamps.weekday
+
+    if is_commercial:
+        h_factors = np.where((hours >= 9) & (hours <= 18),
+                             1.5 + 0.8*np.sin(np.pi * (hours - 9)/9),
+                             np.where((hours >= 19) & (hours <= 22), 0.8, 0.2))
+    else:
+        morning = 0.6 * np.exp(-0.5 * ((hours - 7.5) / 1.5) ** 2)
+        evening = 1.0 * np.exp(-0.5 * ((hours - 19.5) / 2.0) ** 2)
+        h_factors = 0.15 + morning + evening
+
+    s_map = np.array([seasonal_factor(m) for m in range(1, 13)])
+    s_factors = s_map[months - 1]
+    
+    weekday_factors = np.where((weekdays >= 5) & is_commercial, 0.85, 1.0)
+
+    consumption = base * h_factors * s_factors * weekday_factors
+
+    consumption += np.random.normal(0, consumption * 0.08, size=periods)
+    consumption = np.maximum(0.0, consumption)
+
+    df = pd.DataFrame({
+        "timestamp": timestamps,
+        "meter_id": meter_id,
+        "zone": zone_name,
+        "consumption_kwh": np.round(consumption, 4),
+        "is_commercial": is_commercial,
+        "anomaly_type": None,
+        "is_anomaly": False,
+    })
+
+    if anomaly_type:
+        df = inject_anomaly(df, anomaly_type)
+
+    return df
+
 
 def inject_anomaly(df, anomaly_type):
     """Inject realistic anomaly patterns into meter data."""
