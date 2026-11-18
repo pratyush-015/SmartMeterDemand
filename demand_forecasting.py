@@ -45,8 +45,8 @@ def create_time_features(df_zone_hourly):
 
     # Rolling statistics
     for window in [3, 6, 12, 24]:
-        df[f"roll_mean_{window}h"] = df["total_kwh"].shift(1).rolling(window).mean()
-        df[f"roll_std_{window}h"] = df["total_kwh"].shift(1).rolling(window).std()
+        df[f"roll_mean_{window}h"] = df["total_kwh"].shift(24).rolling(window).mean()
+        df[f"roll_std_{window}h"] = df["total_kwh"].shift(24).rolling(window).std()
 
     # Same hour yesterday and last week
     df["same_hour_yesterday"] = df["total_kwh"].shift(24)
@@ -86,12 +86,12 @@ def prepare_zone_hourly(df_raw):
 FEATURE_COLS = [
     "hour", "dayofweek", "month", "is_weekend", "quarter",
     "hour_sin", "hour_cos", "dow_sin", "dow_cos", "month_sin", "month_cos",
-    "lag_1h", "lag_2h", "lag_3h", "lag_6h", "lag_12h", "lag_24h", "lag_48h", "lag_168h",
+    "lag_24h", "lag_48h", "lag_168h",
     "roll_mean_3h", "roll_mean_6h", "roll_mean_12h", "roll_mean_24h",
     "roll_std_3h", "roll_std_6h", "roll_std_12h", "roll_std_24h",
     "same_hour_yesterday", "same_hour_lastweek",
     "is_morning_peak", "is_evening_peak",
-    "active_meters", "avg_kwh_per_meter",
+    "active_meters",
 ]
 
 
@@ -111,7 +111,8 @@ class DemandForecaster:
             zone_df = zone_df.dropna(subset=FEATURE_COLS + ["total_kwh"])
 
             X = zone_df[FEATURE_COLS].values
-            y = zone_df["total_kwh"].values
+            base = zone_df["same_hour_yesterday"].values
+            y = zone_df["total_kwh"].values - base
 
             # Time-series split (no data leakage)
             tscv = TimeSeriesSplit(n_splits=3)
@@ -131,15 +132,15 @@ class DemandForecaster:
                 model.fit(X_tr_s, y_tr)
                 preds = model.predict(X_val_s)
 
-                mae = mean_absolute_error(y_val, preds)
+                mae = mean_absolute_error(y_val, preds)  # residual-space error == real error
                 rmse = np.sqrt(mean_squared_error(y_val, preds))
-                r2 = r2_score(y_val, preds)
-                mape = np.mean(np.abs((y_val - preds) / (y_val + 1e-8))) * 100
-                split_results.append((mae, rmse, r2, mape, model, scaler))
+                r2 = r2_score(y_val + base[val_idx], preds + base[val_idx])
+                mape = np.mean(np.abs((y_val - preds) / (y_val + base[val_idx] + 1e-8))) * 100
+                bmae = np.mean(np.abs(y_val))
+                split_results.append((mae, rmse, r2, mape, bmae))
 
             # Use best split (highest R²)
-            best = max(split_results, key=lambda x: x[2])
-            mae, rmse, r2, mape, model, scaler = best
+            mae, rmse, r2, mape, bmae = np.mean(split_results, axis=0)
 
             # Final model on all data
             scaler_final = StandardScaler()
@@ -152,7 +153,7 @@ class DemandForecaster:
 
             self.models[zone] = final_model
             self.scalers[zone] = scaler_final
-            self.metrics[zone] = {"MAE": mae, "RMSE": rmse, "R2": r2, "MAPE": mape}
+            self.metrics[zone] = {"MAE": mae, "RMSE": rmse, "R2": r2, "MAPE": mape, "BASE_MAE": bmae}
             self.feature_importance[zone] = dict(
                 zip(FEATURE_COLS, final_model.feature_importances_)
             )
@@ -168,7 +169,7 @@ class DemandForecaster:
 
             X = zone_df[FEATURE_COLS].values
             X_s = self.scalers[zone].transform(X)
-            preds = model.predict(X_s)
+            preds = model.predict(X_s) + zone_df["same_hour_yesterday"].values
 
             zone_df = zone_df.copy()
             zone_df["predicted_kwh"] = preds

@@ -458,12 +458,12 @@ def sax(ax, facecolor=None):
     ax.grid(True, color=C["border"], alpha=0.5, linestyle="--", linewidth=0.4)
 
 
-@st.cache_data
+@st.cache_resource(show_spinner=False)
 def load_data():
     from data_generator import generate_full_dataset
     from demand_forecasting import prepare_zone_hourly, DemandForecaster, compute_zone_risk
     from anomaly_detection import compute_meter_features, AnomalyDetector
-    raw_df = generate_full_dataset(days=45)
+    raw_df = generate_full_dataset(days=60)
     zone_hourly = prepare_zone_hourly(raw_df)
     forecaster = DemandForecaster()
     forecaster.train(zone_hourly)
@@ -641,7 +641,7 @@ if "Overview" in page:
                 <td>Cleaned time series</td></tr>
             <tr><td>Part A: Forecasting</td>
                 <td><span class="tech-badge">GradientBoosting</span></td>
-                <td>35+ features: lag, cyclical, rolling stats, peer aggregates</td>
+                <td>Lags ≥24h, cyclical time, rolling stats, peak flags</td>
                 <td>Hourly demand forecast</td></tr>
             <tr><td>Zone Risk Engine</td>
                 <td><span class="tech-badge">rule-based</span></td>
@@ -667,7 +667,7 @@ elif "Demand" in page:
     st.markdown("""
     <div class="page-header">
         <h1>📈 Demand Forecasting & Zone Risk</h1>
-        <p>GradientBoosting per-zone models with 35+ temporal features — R² 1.000, MAPE 0.2%</p>
+        <p>Per-zone GradientBoosting, day-ahead safe (lags ≥ 24h), 3-fold TimeSeriesSplit out-of-fold metrics</p>
     </div>
     """, unsafe_allow_html=True)
 
@@ -681,8 +681,8 @@ elif "Demand" in page:
 
     # Metrics banner
     m = forecaster.metrics.get(zone, {})
-    b_mae = fdf["baseline_mae"].mean()
-    mod_mae = fdf["model_mae"].mean()
+    b_mae = m.get("BASE_MAE", 1)
+    mod_mae = m.get("MAE", 0)
     imp = (b_mae - mod_mae) / (b_mae + 1e-8) * 100
     st.markdown(f"""
     <div class="metric-row">
@@ -763,8 +763,8 @@ elif "Demand" in page:
     rows = []
     for z, fdf3 in forecasts.items():
         mm = forecaster.metrics.get(z, {})
-        bm = fdf3["baseline_mae"].mean()
-        km = fdf3["model_mae"].mean()
+        bm = forecaster.metrics[z]["BASE_MAE"]
+        km = forecaster.metrics[z]["MAE"]
         rows.append({
             "Zone": z,
             "MAE — Model": f"{km:.3f} kWh",
@@ -784,7 +784,7 @@ elif "Anomaly" in page:
     st.markdown("""
     <div class="page-header">
         <h1>🚨 Anomaly & Theft Detection</h1>
-        <p>Isolation Forest + 6-rule expert system — Precision 93.8% · Recall 100% · F1 96.8%</p>
+        <p>Isolation Forest + 6-rule expert system · scored on synthetic injected anomalies</p>
     </div>
     """, unsafe_allow_html=True)
 
